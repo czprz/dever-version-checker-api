@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionCheckApi", "VersionCheckApi\VersionCheckApi.csproj", "{2D0A0DA0-A9D0-4039-AF6F-11D86C9A967A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionApi", "VersionApi\VersionApi.csproj", "{2D0A0DA0-A9D0-4039-AF6F-11D86C9A967A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
