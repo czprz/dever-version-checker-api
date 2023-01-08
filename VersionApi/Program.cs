@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks();
+
 builder.Services.AddScoped<IReleaseService, ReleaseService>();
 
 builder.Services.AddHttpClient("github-api", client =>
@@ -27,5 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapLatestVersionEndpoints();
+
+app.MapHealthChecks("/healthz");
 
 app.Run();
