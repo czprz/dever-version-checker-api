@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Microsoft.Extensions.Options;
+using Polly;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using VersionCheckApi.Endpoints.Version;
 using VersionCheckApi.OpenApi;
@@ -29,17 +30,35 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddScoped<IReleaseService, ReleaseService>();
 
-builder.Services.AddHttpClient("github-api", client =>
+builder.Services.AddOutputCache(options =>
 {
-    client.BaseAddress = new("https://api.github.com");
-    client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-    client.DefaultRequestHeaders.Add("User-Agent", "request");
-    client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
-    var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
-    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+    options.AddPolicy("expires5s", x => x.Expire(TimeSpan.FromSeconds(5000)));
 });
 
+builder.Services.AddHttpClient("github-api", client =>
+    {
+        client.BaseAddress = new("https://api.github.com");
+        client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+        client.DefaultRequestHeaders.Add("User-Agent", "request");
+        client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+        var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+    }).AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+    {
+        TimeSpan.FromSeconds(1),
+        TimeSpan.FromSeconds(5),
+        TimeSpan.FromSeconds(10)
+    }))
+    .AddTransientHttpErrorPolicy(policy => policy.AdvancedCircuitBreakerAsync(
+        failureThreshold: 0.5,
+        durationOfBreak: TimeSpan.FromSeconds(15),
+        samplingDuration: TimeSpan.FromSeconds(10),
+        minimumThroughput: 10
+    ));
+
 var app = builder.Build();
+
+app.UseOutputCache();
 
 var versionSet = app.NewApiVersionSet()
     .HasApiVersion(1, 0)
