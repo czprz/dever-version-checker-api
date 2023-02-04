@@ -32,7 +32,7 @@ builder.Services.AddScoped<IReleaseService, ReleaseService>();
 
 builder.Services.AddOutputCache(options =>
 {
-    options.AddPolicy("expires5s", x => x.Expire(TimeSpan.FromSeconds(5000)));
+    options.AddPolicy("expires5s", x => x.Expire(TimeSpan.FromSeconds(5)));
 });
 
 builder.Services.AddHttpClient("github-api", client =>
