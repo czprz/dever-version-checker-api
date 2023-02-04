@@ -5,7 +5,7 @@ This service is used to make a API available for https://github.com/czprz/dever 
 ## Getting Started
 
 ```
-git clone https://github.com/czprz/dever.git
+git clone https://github.com/czprz/dever-version-checker-api.git
 ```
 
 ### Prerequisites
@@ -49,13 +49,13 @@ request.
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see
-the [releases on this repository](https://github.com/czprz/dever/releases).
+the [releases on this repository](https://github.com/czprz/dever-version-checker-api/releases).
 
 ## Authors
 
 * **[Casper Overholm Elkrog](https://github.com/czprz)** - *Initial work*
 
-See also the list of [contributors](https://github.com/czprz/dever/network/) who participated in this project.
+See also the list of [contributors](https://github.com/czprz/dever-version-checker-api/network/) who participated in this project.
 
 ## License
 
