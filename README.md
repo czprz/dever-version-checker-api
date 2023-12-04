@@ -13,7 +13,7 @@ git clone https://github.com/czprz/dever-version-checker-api.git
 You'll need to install below dependencies
 
 ```
-.NET 7 SDK
+.NET 8 SDK
 ```
 
 ### Swagger
@@ -29,7 +29,7 @@ Currently no tests implemented..
 
 ### Built With
 
-* [.NET 7](https://dotnet.microsoft.com/en-us/)
+* [.NET 8](https://dotnet.microsoft.com/en-us/)
 * [Docker](https://www.docker.com/)
 * [nuget.org](https://www.nuget.org/)
 
