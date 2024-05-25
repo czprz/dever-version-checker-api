@@ -42,7 +42,7 @@ builder.Services.AddHttpClient("github-api", client =>
         client.DefaultRequestHeaders.Add("User-Agent", "request");
         client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
         var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
-        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        client.DefaultRequestHeaders.Authorization = new("Bearer", token);
     }).AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
     {
         TimeSpan.FromSeconds(1),
